@@ -1,0 +1,79 @@
+import {
+  Clock,
+  Compass,
+  Calendar,
+  Timer,
+  BookOpen,
+  MessageSquareQuote,
+  Hand,
+  Calculator,
+  RefreshCw,
+  Tag,
+  Moon,
+  ClipboardList,
+  Wallet,
+  CloudSun,
+  Banknote,
+  ListChecks,
+  CalendarClock,
+  FileCheck,
+  Shirt,
+  ClipboardCheck,
+  ShieldAlert,
+  Footprints,
+  Landmark,
+  UtensilsCrossed,
+  Car,
+  Wifi,
+  ShoppingBag,
+  DoorOpen,
+  View,
+  FileDown,
+  type LucideIcon,
+} from "lucide-react";
+
+export interface ToolListing {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  href: string;
+}
+
+/**
+ * Single source of truth for the Islamic Tools listing — used by the
+ * /islamic-tools hub page and by <RelatedTools> on each individual tool
+ * page for internal linking. Keep in sync with src/app/islamic-tools/*.
+ */
+export const islamicToolsList: ToolListing[] = [
+  { icon: Clock, title: "Prayer Times", description: "Accurate prayer times for any city, worldwide.", href: "/islamic-tools/prayer-times" },
+  { icon: Compass, title: "Qibla Finder", description: "Find the direction of the Kaaba from your location.", href: "/islamic-tools/qibla-finder" },
+  { icon: Calendar, title: "Hijri Calendar", description: "This month in the Islamic calendar.", href: "/islamic-tools/hijri-calendar" },
+  { icon: Moon, title: "Ramadan Countdown", description: "Days remaining until the next Ramadan.", href: "/islamic-tools/ramadan-countdown" },
+  { icon: Timer, title: "Hajj Countdown", description: "Days remaining until the Day of Arafah.", href: "/islamic-tools/hajj-countdown" },
+  { icon: BookOpen, title: "Daily Quran Verse", description: "A new ayah to reflect on each day.", href: "/islamic-tools/daily-quran-verse" },
+  { icon: MessageSquareQuote, title: "Daily Hadith", description: "A hadith of the day from authentic sources.", href: "/islamic-tools/daily-hadith" },
+  { icon: Hand, title: "Dua of the Day", description: "A dua for every occasion, one per day.", href: "/islamic-tools/dua-of-the-day" },
+  { icon: RefreshCw, title: "Tasbih Counter", description: "A digital counter for your dhikr.", href: "/islamic-tools/tasbih-counter" },
+  { icon: Calculator, title: "Zakat Calculator", description: "Work out your annual Zakat obligation.", href: "/islamic-tools/zakat-calculator" },
+  { icon: RefreshCw, title: "Hijri Converter", description: "Convert between Gregorian and Hijri dates.", href: "/islamic-tools/hijri-converter" },
+  { icon: ClipboardList, title: "Umrah Packing Checklist", description: "Build a personalized, printable Umrah packing list.", href: "/islamic-tools/packing-checklist" },
+  { icon: Wallet, title: "Umrah Budget Calculator", description: "Estimate your total Umrah trip cost, including hidden extras.", href: "/islamic-tools/umrah-budget-calculator" },
+  { icon: CloudSun, title: "Weather", description: "Live temperature and heat guidance for Makkah & Madinah.", href: "/islamic-tools/makkah-madinah-weather" },
+  { icon: Banknote, title: "Currency Converter", description: "Convert LKR, SAR and USD with live daily exchange rates.", href: "/islamic-tools/currency-converter" },
+  { icon: ListChecks, title: "Step-by-Step Umrah Guide", description: "The full Umrah sequence, from Ihram to Halq/Taqsir, with duas.", href: "/islamic-tools/umrah-guide" },
+  { icon: ShieldAlert, title: "Ihram Rules & Restrictions", description: "What's not allowed during Ihram, general and specific to men and women.", href: "/islamic-tools/ihram-rules-guide" },
+  { icon: CalendarClock, title: "Best Time & Crowd Guide", description: "Season-by-season crowd and price patterns for Ramadan, post-Hajj, winter and summer.", href: "/islamic-tools/best-time-and-crowd-guide" },
+  { icon: FileCheck, title: "Umrah Visa Guide", description: "How the Umrah visa process works for Sri Lankan pilgrims, and what to prepare.", href: "/islamic-tools/umrah-visa-guide" },
+  { icon: ClipboardCheck, title: "Pre-Departure Checklist", description: "Documents, money and admin to sort out before you fly.", href: "/islamic-tools/pre-departure-checklist" },
+  { icon: Shirt, title: "Saudi Travel Tips", description: "Everyday etiquette and practical tips for first-time Umrah pilgrims.", href: "/islamic-tools/saudi-travel-tips-guide" },
+  { icon: Footprints, title: "Hotels Near the Haram", description: "A walking-distance guide to choosing a Makkah hotel — cost vs. convenience trade-offs.", href: "/islamic-tools/hotels-near-haram-guide" },
+  { icon: Landmark, title: "Ziyarah Guide", description: "Historical sites to visit around Makkah & Madinah.", href: "/islamic-tools/ziyarah-guide" },
+  { icon: UtensilsCrossed, title: "Halal Food Guide", description: "What to expect eating in Makkah & Madinah — price tiers, Zamzam water and more.", href: "/islamic-tools/halal-food-guide" },
+  { icon: Car, title: "Transport & Taxi Guide", description: "Getting around Makkah, Madinah and beyond — taxis, trains, buses and more.", href: "/islamic-tools/saudi-transport-guide" },
+  { icon: Wifi, title: "SIM Card & WiFi Guide", description: "Staying connected in Saudi Arabia — operators, tourist SIMs, eSIMs and free WiFi.", href: "/islamic-tools/saudi-sim-and-wifi-guide" },
+  { icon: ShoppingBag, title: "Shopping Guide", description: "What to buy in Makkah & Madinah, where to shop, and bargaining tips.", href: "/islamic-tools/makkah-madinah-shopping-guide" },
+  { icon: DoorOpen, title: "Haram Facilities Guide", description: "Gates, Zamzam stations, accessibility and more — general orientation, not a pinpoint map.", href: "/islamic-tools/masjid-al-haram-facilities-guide" },
+  { icon: View, title: "360° Holy Places Explorer", description: "Real external 360° and panoramic resources for the Kaaba and the two holy mosques.", href: "/islamic-tools/360-explorer" },
+  { icon: FileDown, title: "Offline Umrah Guide (PDF)", description: "A free printable PDF with the full Umrah guide, packing list and pre-departure checklist.", href: "/islamic-tools/offline-pdf-guide" },
+  { icon: Tag, title: "Islamic Names", description: "1,000+ Islamic names for boys & girls, with meanings.", href: "/islamic-names" },
+];

@@ -1,0 +1,137 @@
+/**
+ * Core domain types, mirroring the Supabase/Postgres schema in
+ * /supabase/migrations. Kept in one place so UI, mock data, and future
+ * server queries all share the same shape.
+ */
+
+export type TrustBadgeType =
+  | "gold_verified"
+  | "featured"
+  | "premium_partner"
+  | "recommended"
+  | "new_agency";
+
+export type UserRole =
+  | "super_admin"
+  | "admin"
+  | "content_manager"
+  | "travel_agency"
+  | "moderator"
+  | "editor";
+
+export interface Agency {
+  id: string;
+  slug: string;
+  name: string;
+  logoUrl: string;
+  coverImageUrl?: string;
+  description: string;
+  city: string;
+  address?: string;
+  phone: string;
+  whatsapp: string;
+  email: string;
+  website?: string;
+  lat?: number;
+  lng?: number;
+  badges: TrustBadgeType[];
+  yearsActive?: number;
+  packageCount: number;
+  rating?: number;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface Package {
+  id: string;
+  slug: string;
+  agencyId: string;
+  agency: Pick<Agency, "id" | "slug" | "name" | "logoUrl" | "badges" | "whatsapp" | "phone">;
+  title: string;
+  coverImageUrl: string;
+  images: string[];
+  priceLkr: number;
+  priceUsd?: number;
+  durationDays: number;
+  departureCity: string;
+  airline: string;
+  makkahHotel: string;
+  makkahHotelStars: number;
+  /** Optional, agency-supplied — powers the walking-route-to-Haram map on
+   * the package page. Never geocoded/inferred automatically. */
+  makkahHotelLat?: number;
+  makkahHotelLng?: number;
+  madinahHotel: string;
+  madinahHotelStars: number;
+  madinahHotelLat?: number;
+  madinahHotelLng?: number;
+  mealPlan?: string;
+  transport?: string;
+  visaIncluded: boolean;
+  groupType: "individual" | "group" | "family" | "vip";
+  category: "economy" | "standard" | "premium" | "luxury";
+  tags: string[];
+  inclusions: string[];
+  exclusions: string[];
+  brochureUrl?: string;
+  departureDate?: string;
+  seatsAvailable?: number;
+  viewCount: number;
+  clickCount: number;
+  compareCount: number;
+  contactCount: number;
+  isFeatured: boolean;
+  /** Draft packages never appear publicly — lets an agency prepare a
+   * listing, or an admin unpublish, without deleting. Defaults to true. */
+  isPublished: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type BlogPostStatus = "draft" | "published";
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  /** Article body as an array of paragraphs (rendered as separate <p> tags). */
+  content: string[];
+  coverImageUrl: string;
+  category: string;
+  author: string;
+  readMinutes: number;
+  publishedAt: string;
+  status: BlogPostStatus;
+}
+
+export type InquiryChannel = "whatsapp" | "phone" | "email" | "form";
+export type InquiryStatus = "new" | "contacted" | "closed";
+
+export interface Inquiry {
+  id: string;
+  agencyId: string;
+  agencyName: string;
+  packageId?: string;
+  packageTitle?: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  message?: string;
+  channel: InquiryChannel;
+  status: InquiryStatus;
+  createdAt: string;
+}
+
+export interface Maulavi {
+  id: string;
+  slug: string;
+  name: string;
+  photoUrl: string;
+  specialization: string;
+  city: string;
+  languages: string[];
+  yearsExperience: number;
+  phone: string;
+  whatsapp: string;
+}
