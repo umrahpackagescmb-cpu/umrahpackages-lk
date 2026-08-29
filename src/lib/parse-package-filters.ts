@@ -21,6 +21,7 @@ export function parsePackageFilters(sp: SearchParams): PackageFilters {
     minPrice: first(sp.minPrice) ? Number(first(sp.minPrice)) : undefined,
     maxPrice: first(sp.maxPrice) ? Number(first(sp.maxPrice)) : undefined,
     minStars: first(sp.minStars) ? Number(first(sp.minStars)) : undefined,
+    departureMonth: first(sp.departureMonth) || undefined,
     query: first(sp.query),
     sort: (first(sp.sort) as PackageFilters["sort"]) ?? "popular",
   };

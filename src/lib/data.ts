@@ -33,6 +33,10 @@ export interface PackageFilters {
   city?: string;
   badge?: TrustBadgeType;
   query?: string;
+  /** "YYYY-MM" — matches `Package.departureDate`'s first 7 characters. A
+   * package with no departureDate set never matches a month filter, since
+   * someone filtering by month is trying to plan around a real travel date. */
+  departureMonth?: string;
   sort?: "price_asc" | "price_desc" | "duration_asc" | "duration_desc" | "newest" | "popular";
 }
 
@@ -47,6 +51,9 @@ function matchesFilters(pkg: Package, filters: PackageFilters): boolean {
   if (filters.airline && !pkg.airline.toLowerCase().includes(filters.airline.toLowerCase())) return false;
   if (filters.agencySlug && pkg.agency.slug !== filters.agencySlug) return false;
   if (filters.badge && !pkg.agency.badges.includes(filters.badge)) return false;
+  if (filters.departureMonth) {
+    if (!pkg.departureDate || !pkg.departureDate.startsWith(filters.departureMonth)) return false;
+  }
   if (filters.city) {
     const agency = mockAgencies.find((a) => a.id === pkg.agencyId);
     if (agency?.city.toLowerCase() !== filters.city.toLowerCase()) return false;
@@ -179,6 +186,30 @@ export function getPriceRange(): { min: number; max: number } {
 
 export function getAirlines(): string[] {
   return Array.from(new Set(mockPackages.map((p) => p.airline))).sort();
+}
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+/** Every distinct departure month actually present among published,
+ * active-agency packages — e.g. [{ value: "2026-11", label: "November 2026" }].
+ * Built from real package data rather than a static Jan-Dec list, since not
+ * every month necessarily has a departure scheduled yet. */
+export function getDepartureMonths(): { value: string; label: string }[] {
+  const months = new Set(
+    publiclyVisiblePackages()
+      .map((p) => p.departureDate?.slice(0, 7))
+      .filter((m): m is string => Boolean(m)),
+  );
+  return Array.from(months)
+    .sort()
+    .map((value) => {
+      const [year, month] = value.split("-");
+      const label = `${MONTH_NAMES[Number(month) - 1]} ${year}`;
+      return { value, label };
+    });
 }
 
 // -----------------------------------------------------------------------------

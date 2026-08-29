@@ -164,6 +164,40 @@ function PriceDurationFilters({ priceMin, priceMax }: { priceMin: number; priceM
   );
 }
 
+function DepartureMonthFilter({ months }: { months: { value: string; label: string }[] }) {
+  const { searchParams, update } = useFilterState();
+  const active = searchParams.get("departureMonth") ?? "";
+
+  if (months.length === 0) return null;
+
+  return (
+    <fieldset>
+      <legend className="text-sm font-semibold text-brand-navy">Departure Month</legend>
+      <p className="mt-1 text-xs text-muted-foreground">
+        Only shows packages with a scheduled departure that month.
+      </p>
+      <Select
+        value={active || "any"}
+        onValueChange={(v) =>
+          update((params) => (v === "any" ? params.delete("departureMonth") : params.set("departureMonth", v)))
+        }
+      >
+        <SelectTrigger className="mt-3 w-full" aria-label="Filter by departure month">
+          <SelectValue placeholder="Any month" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="any">Any month</SelectItem>
+          {months.map((m) => (
+            <SelectItem key={m.value} value={m.value}>
+              {m.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </fieldset>
+  );
+}
+
 function StarsFilter() {
   const { searchParams, update } = useFilterState();
   const active = searchParams.get("minStars") ?? "";
@@ -215,7 +249,13 @@ export function SortDropdown() {
   );
 }
 
-function FilterBody({ priceMin, priceMax }: { priceMin: number; priceMax: number }) {
+type FilterBodyProps = {
+  priceMin: number;
+  priceMax: number;
+  departureMonths?: { value: string; label: string }[];
+};
+
+function FilterBody({ priceMin, priceMax, departureMonths = [] }: FilterBodyProps) {
   const { searchParams, update } = useFilterState();
   const hasFilters = Array.from(searchParams.keys()).some((k) => k !== "sort");
 
@@ -235,6 +275,8 @@ function FilterBody({ priceMin, priceMax }: { priceMin: number; priceMax: number
           <X className="size-3.5" /> Clear all filters
         </Button>
       )}
+      <DepartureMonthFilter months={departureMonths} />
+      <Separator />
       <CategoryAndGroupFilters />
       <Separator />
       <PriceDurationFilters priceMin={priceMin} priceMax={priceMax} />
@@ -244,7 +286,7 @@ function FilterBody({ priceMin, priceMax }: { priceMin: number; priceMax: number
   );
 }
 
-export function PackageFiltersDesktop({ priceMin, priceMax }: { priceMin: number; priceMax: number }) {
+export function PackageFiltersDesktop({ priceMin, priceMax, departureMonths }: FilterBodyProps) {
   return (
     <aside className="hidden lg:block w-64 shrink-0">
       <div className="sticky top-24 rounded-2xl border border-border bg-white p-5 shadow-soft">
@@ -252,14 +294,14 @@ export function PackageFiltersDesktop({ priceMin, priceMax }: { priceMin: number
           <SlidersHorizontal className="size-4" /> Filters
         </h2>
         <div className="mt-5">
-          <FilterBody priceMin={priceMin} priceMax={priceMax} />
+          <FilterBody priceMin={priceMin} priceMax={priceMax} departureMonths={departureMonths} />
         </div>
       </div>
     </aside>
   );
 }
 
-export function PackageFiltersMobile({ priceMin, priceMax }: { priceMin: number; priceMax: number }) {
+export function PackageFiltersMobile({ priceMin, priceMax, departureMonths }: FilterBodyProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -272,7 +314,7 @@ export function PackageFiltersMobile({ priceMin, priceMax }: { priceMin: number;
           <SheetTitle>Filters</SheetTitle>
         </SheetHeader>
         <div className="overflow-y-auto px-6 pb-6">
-          <FilterBody priceMin={priceMin} priceMax={priceMax} />
+          <FilterBody priceMin={priceMin} priceMax={priceMax} departureMonths={departureMonths} />
         </div>
       </SheetContent>
     </Sheet>

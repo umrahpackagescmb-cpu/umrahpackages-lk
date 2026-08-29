@@ -9,7 +9,7 @@ import {
   SortDropdown,
 } from "@/components/packages/package-filters";
 import { Pagination } from "@/components/packages/pagination";
-import { getPackages, getPriceRange } from "@/lib/data";
+import { getPackages, getPriceRange, getDepartureMonths } from "@/lib/data";
 import { parsePackageFilters, first, all, type SearchParams } from "@/lib/parse-package-filters";
 
 export const metadata: Metadata = {
@@ -31,6 +31,7 @@ export default async function PackagesPage({
   const page = Math.max(1, Number(first(sp.page)) || 1);
 
   const [allResults, priceRange] = await Promise.all([getPackages(filters), Promise.resolve(getPriceRange())]);
+  const departureMonths = getDepartureMonths();
 
   const totalPages = Math.max(1, Math.ceil(allResults.length / PAGE_SIZE));
   const pageResults = allResults.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -57,7 +58,7 @@ export default async function PackagesPage({
 
       <div className="container-page py-12">
         <div className="flex gap-8">
-          <PackageFiltersDesktop priceMin={priceRange.min} priceMax={priceRange.max} />
+          <PackageFiltersDesktop priceMin={priceRange.min} priceMax={priceRange.max} departureMonths={departureMonths} />
 
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center justify-between gap-4">
@@ -66,7 +67,7 @@ export default async function PackagesPage({
                 {allResults.length === 1 ? "" : "s"} found
               </p>
               <div className="flex items-center gap-2">
-                <PackageFiltersMobile priceMin={priceRange.min} priceMax={priceRange.max} />
+                <PackageFiltersMobile priceMin={priceRange.min} priceMax={priceRange.max} departureMonths={departureMonths} />
                 <SortDropdown />
               </div>
             </div>

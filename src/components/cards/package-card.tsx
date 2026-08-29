@@ -7,7 +7,7 @@ import { CalendarDays, MapPin, Plane, Users, Scale, Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrustBadgeList } from "@/components/badges/trust-badge";
-import { formatLkr } from "@/lib/format";
+import { formatLkr, formatDate } from "@/lib/format";
 import { useCompare } from "@/lib/use-compare";
 import { cn } from "@/lib/utils";
 import type { Package } from "@/types/domain";
@@ -66,6 +66,12 @@ export function PackageCard({ pkg }: { pkg: Package }) {
         </Link>
 
         <p className="text-sm text-muted-foreground">by {pkg.agency.name}</p>
+
+        {pkg.departureDate && (
+          <p className="flex items-center gap-1.5 text-xs font-medium text-brand-gold-dark">
+            <CalendarDays className="size-3.5" /> Departs {formatDate(pkg.departureDate)}
+          </p>
+        )}
 
         <div className="grid grid-cols-2 gap-y-2 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5">
