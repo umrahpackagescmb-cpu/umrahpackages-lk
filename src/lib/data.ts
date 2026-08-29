@@ -33,9 +33,10 @@ export interface PackageFilters {
   city?: string;
   badge?: TrustBadgeType;
   query?: string;
-  /** "YYYY-MM" — matches `Package.departureDate`'s first 7 characters. A
-   * package with no departureDate set never matches a month filter, since
-   * someone filtering by month is trying to plan around a real travel date. */
+  /** "YYYY-MM" — matches the first 7 characters of any one of
+   * `Package.departureDates`. A package with no departureDates set never
+   * matches a month filter, since someone filtering by month is trying to
+   * plan around a real travel date. */
   departureMonth?: string;
   sort?: "price_asc" | "price_desc" | "duration_asc" | "duration_desc" | "newest" | "popular";
 }
@@ -52,7 +53,7 @@ function matchesFilters(pkg: Package, filters: PackageFilters): boolean {
   if (filters.agencySlug && pkg.agency.slug !== filters.agencySlug) return false;
   if (filters.badge && !pkg.agency.badges.includes(filters.badge)) return false;
   if (filters.departureMonth) {
-    if (!pkg.departureDate || !pkg.departureDate.startsWith(filters.departureMonth)) return false;
+    if (!pkg.departureDates?.some((d) => d.startsWith(filters.departureMonth!))) return false;
   }
   if (filters.city) {
     const agency = mockAgencies.find((a) => a.id === pkg.agencyId);
@@ -200,8 +201,8 @@ const MONTH_NAMES = [
 export function getDepartureMonths(): { value: string; label: string }[] {
   const months = new Set(
     publiclyVisiblePackages()
-      .map((p) => p.departureDate?.slice(0, 7))
-      .filter((m): m is string => Boolean(m)),
+      .flatMap((p) => p.departureDates ?? [])
+      .map((d) => d.slice(0, 7)),
   );
   return Array.from(months)
     .sort()

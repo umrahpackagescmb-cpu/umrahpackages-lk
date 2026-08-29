@@ -74,7 +74,12 @@ export interface Package {
   inclusions: string[];
   exclusions: string[];
   brochureUrl?: string;
-  departureDate?: string;
+  /** Every scheduled departure date for this package, all at the price
+   * above ("YYYY-MM-DD" each). An agency lists a date here only when it
+   * shares this package's rate — a date at a different price becomes its
+   * own separate package listing instead. Empty when no date is scheduled
+   * yet. Not assumed sorted — read via `nextDeparture()` in `@/lib/format`. */
+  departureDates?: string[];
   seatsAvailable?: number;
   viewCount: number;
   clickCount: number;

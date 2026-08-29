@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogIn, Menu, Phone, Search } from "lucide-react";
+import { LogIn, Menu } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,6 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { mainNav } from "@/lib/nav-config";
-import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -82,23 +81,10 @@ export function Header() {
         </nav>
 
         <div className="hidden xl:flex items-center gap-2">
-          <Button variant="ghost" size="icon" asChild aria-label="Search">
-            <Link href="/search">
-              <Search />
-            </Link>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link href={siteConfig.contact.phoneHref}>
-              <Phone /> {siteConfig.contact.phone}
-            </Link>
-          </Button>
           <Button variant="ghost" size="icon" asChild aria-label="Agency / Admin Sign In">
             <Link href="/sign-in">
               <LogIn />
             </Link>
-          </Button>
-          <Button size="sm" variant="gold" asChild>
-            <Link href="/packages">Browse Packages</Link>
           </Button>
         </div>
 
@@ -127,18 +113,10 @@ export function Header() {
               ))}
             </nav>
             <div className="mt-auto flex flex-col gap-2 p-6 pt-0">
-              <Button variant="outline" asChild>
-                <Link href={siteConfig.contact.phoneHref}>
-                  <Phone /> {siteConfig.contact.phone}
-                </Link>
-              </Button>
-              <Button variant="ghost" asChild>
+              <Button variant="gold" asChild>
                 <Link href="/sign-in">
                   <LogIn /> Agency / Admin Sign In
                 </Link>
-              </Button>
-              <Button variant="gold" asChild>
-                <Link href="/packages">Browse Packages</Link>
               </Button>
             </div>
           </SheetContent>

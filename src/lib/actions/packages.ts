@@ -31,7 +31,7 @@ function toRow(agencyId: string, values: PackageFormValues) {
     visa_included: values.visaIncluded,
     group_type: values.groupType,
     category: values.category,
-    departure_date: values.departureDate || null,
+    departure_dates: values.departureDates.map((d) => d.date.trim()).filter(Boolean),
     seats_available: values.seatsAvailable || null,
     inclusions: values.inclusions.split("\n").map((s) => s.trim()).filter(Boolean),
     exclusions: (values.exclusions || "").split("\n").map((s) => s.trim()).filter(Boolean),

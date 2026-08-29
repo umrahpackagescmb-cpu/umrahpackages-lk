@@ -7,7 +7,7 @@ import { CalendarDays, MapPin, Plane, Users, Scale, Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrustBadgeList } from "@/components/badges/trust-badge";
-import { formatLkr, formatDate } from "@/lib/format";
+import { formatLkr, formatDate, nextDeparture } from "@/lib/format";
 import { useCompare } from "@/lib/use-compare";
 import { cn } from "@/lib/utils";
 import type { Package } from "@/types/domain";
@@ -16,6 +16,8 @@ export function PackageCard({ pkg }: { pkg: Package }) {
   const { isSelected, toggle, slugs, max } = useCompare();
   const selected = isSelected(pkg.slug);
   const disabled = !selected && slugs.length >= max;
+  const departs = nextDeparture(pkg.departureDates);
+  const moreDates = (pkg.departureDates?.length ?? 0) - 1;
 
   return (
     <Card className="group relative p-0 overflow-hidden hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300">
@@ -67,9 +69,14 @@ export function PackageCard({ pkg }: { pkg: Package }) {
 
         <p className="text-sm text-muted-foreground">by {pkg.agency.name}</p>
 
-        {pkg.departureDate && (
+        {departs && (
           <p className="flex items-center gap-1.5 text-xs font-medium text-brand-gold-dark">
-            <CalendarDays className="size-3.5" /> Departs {formatDate(pkg.departureDate)}
+            <CalendarDays className="size-3.5" /> Departs {formatDate(departs)}
+            {moreDates > 0 && (
+              <span className="text-muted-foreground">
+                +{moreDates} more date{moreDates > 1 ? "s" : ""}
+              </span>
+            )}
           </p>
         )}
 

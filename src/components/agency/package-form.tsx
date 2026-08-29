@@ -3,9 +3,9 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Save } from "lucide-react";
+import { Loader2, Save, Plus, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,7 +41,7 @@ function buildDefaultValues(pkg?: Package): PackageFormValues {
     visaIncluded: pkg?.visaIncluded ?? true,
     groupType: pkg?.groupType ?? "group",
     category: pkg?.category ?? "standard",
-    departureDate: pkg?.departureDate ?? "",
+    departureDates: pkg?.departureDates?.length ? pkg.departureDates.map((date) => ({ date })) : [],
     seatsAvailable: pkg?.seatsAvailable ?? "",
     inclusions: pkg?.inclusions.join("\n") ?? "",
     exclusions: pkg?.exclusions.join("\n") ?? "",
@@ -63,6 +63,12 @@ export function PackageForm({ agencyId, pkg }: { agencyId: string; pkg?: Package
     resolver: zodResolver(packageFormSchema),
     defaultValues: buildDefaultValues(pkg),
   });
+
+  const {
+    fields: dateFields,
+    append: appendDate,
+    remove: removeDate,
+  } = useFieldArray({ control, name: "departureDates" });
 
   const onSubmit = async (values: PackageFormValues) => {
     setServerError(null);
@@ -121,11 +127,53 @@ export function PackageForm({ agencyId, pkg }: { agencyId: string; pkg?: Package
             )}
           </div>
 
-          <div>
-            <Label htmlFor="departureDate">Departure date (optional)</Label>
-            <Input id="departureDate" type="date" className="mt-1.5" {...register("departureDate")} />
-            {errors.departureDate && (
-              <p className="mt-1.5 text-xs text-destructive">{errors.departureDate.message}</p>
+          <div className="sm:col-span-2">
+            <Label>Departure dates (optional)</Label>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Add every date this package departs at the price above. If a date needs a
+              different price, list it as a separate package instead of adding it here.
+            </p>
+
+            <div className="mt-3 flex flex-col gap-2">
+              {dateFields.map((field, index) => (
+                <div key={field.id} className="flex items-center gap-2">
+                  <Input
+                    type="date"
+                    aria-label={`Departure date ${index + 1}`}
+                    className="max-w-56"
+                    {...register(`departureDates.${index}.date` as const)}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Remove this date"
+                    onClick={() => removeDate(index)}
+                  >
+                    <X className="size-4" />
+                  </Button>
+                  {errors.departureDates?.[index]?.date && (
+                    <p className="text-xs text-destructive">{errors.departureDates[index]?.date?.message}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-3"
+              onClick={() => appendDate({ date: "" })}
+            >
+              <Plus className="size-4" /> Add departure date
+            </Button>
+
+            {errors.departureDates?.message && (
+              <p className="mt-1.5 text-xs text-destructive">{errors.departureDates.message}</p>
+            )}
+            {errors.departureDates?.root?.message && (
+              <p className="mt-1.5 text-xs text-destructive">{errors.departureDates.root.message}</p>
             )}
           </div>
 

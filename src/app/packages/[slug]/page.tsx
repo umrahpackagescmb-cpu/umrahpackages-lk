@@ -17,7 +17,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { getPackageBySlug, getPackages, getSimilarPackages } from "@/lib/data";
 import { packageSchema, breadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/site-config";
-import { formatDate } from "@/lib/format";
+import { formatDate, nextDeparture } from "@/lib/format";
 
 export async function generateStaticParams() {
   const packages = await getPackages();
@@ -58,6 +58,8 @@ export default async function PackageDetailPage({
   if (!pkg) notFound();
 
   const similar = await getSimilarPackages(pkg, 4);
+  const departs = nextDeparture(pkg.departureDates);
+  const allDepartureDates = [...(pkg.departureDates ?? [])].sort();
 
   return (
     <div className="container-page py-10">
@@ -94,8 +96,26 @@ export default async function PackageDetailPage({
             <Link href={`/agencies/${pkg.agency.slug}`} className="font-medium text-brand-navy hover:text-brand-gold-dark">
               {pkg.agency.name}
             </Link>
-            {pkg.departureDate && <> · Next departure {formatDate(pkg.departureDate)}</>}
+            {departs && <> · Next departure {formatDate(departs)}</>}
           </p>
+
+          {allDepartureDates.length > 0 && (
+            <div className="mt-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {allDepartureDates.length > 1 ? "Available departure dates" : "Departure date"}
+              </p>
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                All dates below depart at the price shown for this package.
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {allDepartureDates.map((date) => (
+                  <Badge key={date} variant={date === departs ? "gold" : "default"}>
+                    {formatDate(date)}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="mt-6">
             <PackageGallery images={pkg.images.length ? pkg.images : [pkg.coverImageUrl]} title={pkg.title} />

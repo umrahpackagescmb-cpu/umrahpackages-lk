@@ -28,7 +28,23 @@ export const packageFormSchema = z.object({
   visaIncluded: z.boolean(),
   groupType: z.enum(["individual", "group", "family", "vip"]),
   category: z.enum(["economy", "standard", "premium", "luxury"]),
-  departureDate: z.string().trim().optional().or(z.literal("")),
+  // Every date here shares the price/rate entered above — an agency adds
+  // as many as this package actually departs on. A date at a different
+  // price isn't added here; it becomes its own separate package instead.
+  // Kept as {date}[] (not string[]) because react-hook-form's useFieldArray
+  // needs objects to key rows by; flattened to string[] in toRow() before
+  // it's written. Blank rows (a date field left empty) are filtered out
+  // there too, so this stays permissive rather than erroring on them.
+  departureDates: z
+    .array(z.object({ date: z.string().trim() }))
+    .max(12, "That's a lot of departure dates for one listing — group them seasonally, or contact us about a bulk listing.")
+    .refine(
+      (arr) => {
+        const filled = arr.map((d) => d.date).filter(Boolean);
+        return new Set(filled).size === filled.length;
+      },
+      { message: "You've added the same date twice." },
+    ),
   seatsAvailable: z.coerce.number().int().min(0).optional().or(z.literal("")),
   // Newline-separated in the textarea, split into arrays before submit.
   inclusions: z.string().trim().min(1, "List at least one inclusion (one per line)"),
