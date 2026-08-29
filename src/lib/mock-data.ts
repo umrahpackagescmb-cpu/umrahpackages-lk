@@ -26,6 +26,9 @@ const AGENCY_LOGOS: Record<string, string> = {
 const avatar = (seed: string, ..._rest: unknown[]) =>
   AGENCY_LOGOS[seed] ?? "/placeholders/logo-alsafa.png";
 
+// 9 visually distinct icons (gate, dome+minarets, Kaaba, crescent+star, flight
+// path, tasbih beads, qibla compass, suitcase, passport+ticket) — one per
+// current agency/package below, so no two cards show the identical cover.
 const COVER_IMAGES = [
   "/placeholders/cover-1.jpg",
   "/placeholders/cover-2.jpg",
@@ -33,6 +36,9 @@ const COVER_IMAGES = [
   "/placeholders/cover-4.jpg",
   "/placeholders/cover-5.jpg",
   "/placeholders/cover-6.jpg",
+  "/placeholders/cover-7.jpg",
+  "/placeholders/cover-8.jpg",
+  "/placeholders/cover-9.jpg",
 ];
 let coverIndex = 0;
 const cover = (..._rest: unknown[]) => {
