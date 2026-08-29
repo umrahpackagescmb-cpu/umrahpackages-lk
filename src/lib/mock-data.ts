@@ -41,6 +41,23 @@ const cover = (..._rest: unknown[]) => {
   return img;
 };
 
+// Blog posts get their own dedicated pool of covers (distinct line-art
+// motifs — crescent & star, mosque dome, compass, lantern, etc. — instead
+// of sharing the small agency/package cover pool above, which made
+// adjacent blog cards look like duplicates of each other). Each post picks
+// its cover explicitly rather than cycling, so the motif can loosely match
+// the article's topic.
+const BLOG_COVERS = {
+  crescentStar: "/placeholders/blog-cover-1.jpg",
+  mosque: "/placeholders/blog-cover-2.jpg",
+  compass: "/placeholders/blog-cover-3.jpg",
+  lantern: "/placeholders/blog-cover-4.jpg",
+  suitcase: "/placeholders/blog-cover-5.jpg",
+  calendar: "/placeholders/blog-cover-6.jpg",
+  tasbih: "/placeholders/blog-cover-7.jpg",
+  paperPlane: "/placeholders/blog-cover-8.jpg",
+} as const;
+
 export const mockAgencies: Agency[] = [
   {
     id: "a1",
@@ -336,7 +353,7 @@ export const mockBlogPosts: BlogPost[] = [
       "Packing for Umrah is different from typical travel. Men should pack at least two sets of Ihram cloth (unstitched white garments) along with a money belt, and comfortable slip-on sandals for the many trips in and out of the mosque. Women should pack loose, modest clothing in breathable fabrics, and a comfortable pair of walking shoes — you will be on your feet far more than you expect.",
       "Finally, take time to learn the basic rites and duas of Umrah before you travel — Ihram, Tawaf, Sa'i, and Halq/Taqsir — so that you can focus on the spiritual experience rather than fumbling through the sequence on the day. Most reputable agencies provide a pre-departure briefing; attend it even if you've researched independently.",
     ],
-    coverImageUrl: cover("blog1"),
+    coverImageUrl: BLOG_COVERS.suitcase,
     category: "Guides",
     author: "UmrahPackages.lk Editorial",
     readMinutes: 8,
@@ -356,7 +373,7 @@ export const mockBlogPosts: BlogPost[] = [
       "Weather-wise, Makkah and Madinah are extremely hot from May through September, often exceeding 40°C. Pilgrims with health conditions, older family members, or young children may prefer the cooler months from November to February.",
       "If budget is the primary concern, avoid school holiday periods (which drive up demand from other countries) and Ramadan. Compare a few packages across different months on UmrahPackages.lk to see how much the timing itself moves the price.",
     ],
-    coverImageUrl: cover("blog2"),
+    coverImageUrl: BLOG_COVERS.calendar,
     category: "Planning",
     author: "UmrahPackages.lk Editorial",
     readMinutes: 6,
@@ -375,7 +392,7 @@ export const mockBlogPosts: BlogPost[] = [
       "During Sa'i: while walking between Safa and Marwah, pilgrims often recite Qur'anic verses and personal supplications freely — this is an excellent time for heartfelt, personal dua in your own language.",
       "After Halq/Taqsir: once the hair is cut or trimmed and Umrah is complete, it is customary to thank Allah and make dua for acceptance of the pilgrimage. Our Islamic Tools page has a Dua of the Day feature if you'd like to continue building a habit of daily supplication after you return home.",
     ],
-    coverImageUrl: cover("blog3"),
+    coverImageUrl: BLOG_COVERS.tasbih,
     category: "Spiritual",
     author: "UmrahPackages.lk Editorial",
     readMinutes: 10,
@@ -395,7 +412,7 @@ export const mockBlogPosts: BlogPost[] = [
       "Ask about the on-ground team. Reputable agencies have a dedicated coordinator or guide (often a Maulavi) accompanying or based in Makkah and Madinah who can assist with logistics and religious guidance during your stay.",
       "Be cautious of prices that are dramatically below the market average — this is often a sign of hidden costs, downgraded hotels after booking, or, in rare cases, outright scams. Compare a handful of packages side by side on our Compare page before making a decision, and always confirm final details directly with the agency over WhatsApp or phone.",
     ],
-    coverImageUrl: cover("blog4"),
+    coverImageUrl: BLOG_COVERS.compass,
     category: "Guides",
     author: "UmrahPackages.lk Editorial",
     readMinutes: 7,
@@ -414,7 +431,7 @@ export const mockBlogPosts: BlogPost[] = [
       "Toiletries: unscented soap and wudhu-friendly products (scented items are discouraged in the state of Ihram), a small first-aid kit, and any personal medication clearly labeled with your name.",
       "Extras worth packing: a small prayer mat or mat cover for airport/layover prayers, a portable charger, a lightweight shawl for air-conditioned mosque halls, and a few zip-lock bags for damp or dusty items on the way home.",
     ],
-    coverImageUrl: cover("blog5"),
+    coverImageUrl: BLOG_COVERS.crescentStar,
     category: "Guides",
     author: "UmrahPackages.lk Editorial",
     readMinutes: 6,
@@ -433,7 +450,7 @@ export const mockBlogPosts: BlogPost[] = [
       "Rites: Hajj includes all the rites of Umrah (Ihram, Tawaf, Sa'i) plus additional rites unique to it — standing at Arafah, staying overnight at Muzdalifah and Mina, and the symbolic stoning of the Jamarat. Umrah is a shorter set of rites that can typically be completed within a few hours.",
       "Scale: Hajj draws several million pilgrims within the same short window each year, making logistics and crowd management far more complex than Umrah, which spreads pilgrims across the entire year.",
     ],
-    coverImageUrl: cover("blog6"),
+    coverImageUrl: BLOG_COVERS.mosque,
     category: "Planning",
     author: "UmrahPackages.lk Editorial",
     readMinutes: 5,
@@ -448,7 +465,7 @@ export const mockBlogPosts: BlogPost[] = [
     content: [
       "This article is still being drafted — check back soon for a full breakdown of current Umrah visa requirements for Sri Lankan passport holders.",
     ],
-    coverImageUrl: cover("blog7-draft"),
+    coverImageUrl: BLOG_COVERS.paperPlane,
     category: "Guides",
     author: "UmrahPackages.lk Editorial",
     readMinutes: 4,

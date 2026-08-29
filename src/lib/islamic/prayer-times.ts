@@ -22,6 +22,62 @@ export const SRI_LANKA_CITIES: CityOption[] = [
   { name: "Madinah, Saudi Arabia", lat: 24.5247, lng: 39.5692 },
 ];
 
+/** Common countries offered in the "Other countries" filter. Aladhan's
+ * timingsByCity endpoint geocodes the city/country pair itself, so this list
+ * is just a friendly picklist — not a source of location data. */
+export const COUNTRIES: string[] = [
+  "Saudi Arabia",
+  "United Arab Emirates",
+  "Qatar",
+  "Kuwait",
+  "Bahrain",
+  "Oman",
+  "Jordan",
+  "Lebanon",
+  "Turkey",
+  "Egypt",
+  "Morocco",
+  "Tunisia",
+  "Algeria",
+  "Libya",
+  "Sudan",
+  "Iraq",
+  "Iran",
+  "Pakistan",
+  "India",
+  "Bangladesh",
+  "Afghanistan",
+  "Indonesia",
+  "Malaysia",
+  "Singapore",
+  "Brunei",
+  "Thailand",
+  "Philippines",
+  "China",
+  "Maldives",
+  "Nepal",
+  "United Kingdom",
+  "Ireland",
+  "France",
+  "Germany",
+  "Netherlands",
+  "Belgium",
+  "Spain",
+  "Italy",
+  "Switzerland",
+  "Sweden",
+  "Norway",
+  "Denmark",
+  "United States",
+  "Canada",
+  "Australia",
+  "New Zealand",
+  "South Africa",
+  "Nigeria",
+  "Kenya",
+  "Somalia",
+];
+
 export interface PrayerTimings {
   Fajr: string;
   Sunrise: string;
@@ -51,5 +107,22 @@ export async function fetchPrayerTimes(lat: number, lng: number, date = new Date
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch prayer times");
   const json = await res.json();
+  return json.data.timings as PrayerTimings;
+}
+
+/**
+ * Aladhan's "timingsByCity" endpoint — same free API, but takes a city +
+ * country name directly and geocodes it on their end. Used for the
+ * worldwide "other countries" filter so we're never guessing coordinates
+ * for a city ourselves.
+ */
+export async function fetchPrayerTimesByCity(city: string, country: string, date = new Date()) {
+  const dateStr = `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
+  const url = `https://api.aladhan.com/v1/timingsByCity/${dateStr}?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=3`;
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed to fetch prayer times");
+  const json = await res.json();
+  if (json.code !== 200) throw new Error(json.data || "Failed to fetch prayer times");
   return json.data.timings as PrayerTimings;
 }

@@ -42,7 +42,7 @@ export function Header() {
       <div className="container-page flex h-18 items-center justify-between py-3">
         <Logo iconSize={38} />
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-1">
           {mainNav.map((item) => {
             const active = pathname === item.href || pathname?.startsWith(item.href + "/");
             return (
@@ -50,7 +50,7 @@ export function Header() {
                 <Link
                   href={item.href}
                   className={cn(
-                    "px-4 py-2 rounded-full text-sm font-medium transition-colors",
+                    "px-3 py-2 rounded-full text-sm font-medium transition-colors",
                     active
                       ? "text-brand-navy bg-brand-gray"
                       : "text-foreground/80 hover:text-brand-navy hover:bg-brand-gray/70",
@@ -81,7 +81,7 @@ export function Header() {
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-2">
+        <div className="hidden xl:flex items-center gap-2">
           <Button variant="ghost" size="icon" asChild aria-label="Search">
             <Link href="/search">
               <Search />
@@ -104,7 +104,7 @@ export function Header() {
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
+            <Button variant="ghost" size="icon" className="xl:hidden" aria-label="Open menu">
               <Menu />
             </Button>
           </SheetTrigger>

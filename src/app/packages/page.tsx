@@ -9,7 +9,8 @@ import {
   SortDropdown,
 } from "@/components/packages/package-filters";
 import { Pagination } from "@/components/packages/pagination";
-import { getPackages, getPriceRange, type PackageFilters } from "@/lib/data";
+import { getPackages, getPriceRange } from "@/lib/data";
+import { parsePackageFilters, first, all, type SearchParams } from "@/lib/parse-package-filters";
 
 export const metadata: Metadata = {
   title: "Umrah Packages",
@@ -20,36 +21,13 @@ export const metadata: Metadata = {
 
 const PAGE_SIZE = 12;
 
-type SearchParams = Record<string, string | string[] | undefined>;
-
-function first(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value;
-}
-
-function all(value: string | string[] | undefined) {
-  if (value == null) return [];
-  return Array.isArray(value) ? value : [value];
-}
-
-function parseFilters(sp: SearchParams): PackageFilters {
-  return {
-    category: all(sp.category),
-    groupType: all(sp.groupType),
-    minPrice: first(sp.minPrice) ? Number(first(sp.minPrice)) : undefined,
-    maxPrice: first(sp.maxPrice) ? Number(first(sp.maxPrice)) : undefined,
-    minStars: first(sp.minStars) ? Number(first(sp.minStars)) : undefined,
-    query: first(sp.query),
-    sort: (first(sp.sort) as PackageFilters["sort"]) ?? "popular",
-  };
-}
-
 export default async function PackagesPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
   const sp = await searchParams;
-  const filters = parseFilters(sp);
+  const filters = parsePackageFilters(sp);
   const page = Math.max(1, Number(first(sp.page)) || 1);
 
   const [allResults, priceRange] = await Promise.all([getPackages(filters), Promise.resolve(getPriceRange())]);
@@ -82,7 +60,7 @@ export default async function PackagesPage({
           <PackageFiltersDesktop priceMin={priceRange.min} priceMax={priceRange.max} />
 
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
               <p className="text-sm text-muted-foreground">
                 <span className="font-semibold text-brand-navy">{allResults.length}</span> package
                 {allResults.length === 1 ? "" : "s"} found

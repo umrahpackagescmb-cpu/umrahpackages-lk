@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Loader2, LocateFixed, AlertCircle } from "lucide-react";
+import { Loader2, LocateFixed, AlertCircle, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -12,15 +13,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SRI_LANKA_CITIES, PRAYER_LABELS, fetchPrayerTimes, type PrayerTimings } from "@/lib/islamic/prayer-times";
+import { cn } from "@/lib/utils";
+import {
+  SRI_LANKA_CITIES,
+  COUNTRIES,
+  PRAYER_LABELS,
+  fetchPrayerTimes,
+  fetchPrayerTimesByCity,
+  type PrayerTimings,
+} from "@/lib/islamic/prayer-times";
+
+type Mode = "sri-lanka" | "worldwide" | "location";
+
+const MODES: { key: Mode; label: string }[] = [
+  { key: "sri-lanka", label: "Sri Lanka" },
+  { key: "worldwide", label: "Other Countries" },
+  { key: "location", label: "My Location" },
+];
 
 export function PrayerTimesWidget() {
+  const [mode, setMode] = React.useState<Mode>("sri-lanka");
   const [city, setCity] = React.useState(SRI_LANKA_CITIES[0].name);
+  const [country, setCountry] = React.useState(COUNTRIES[0]);
+  const [worldCity, setWorldCity] = React.useState("Makkah");
   const [timings, setTimings] = React.useState<PrayerTimings | null>(null);
   const [status, setStatus] = React.useState<"idle" | "loading" | "error">("idle");
   const [locationLabel, setLocationLabel] = React.useState(SRI_LANKA_CITIES[0].name);
 
-  const load = React.useCallback(async (lat: number, lng: number, label: string) => {
+  const loadByCoords = React.useCallback(async (lat: number, lng: number, label: string) => {
     setStatus("loading");
     try {
       const data = await fetchPrayerTimes(lat, lng);
@@ -32,41 +52,117 @@ export function PrayerTimesWidget() {
     }
   }, []);
 
-  React.useEffect(() => {
-    const run = () => {
-      const selected = SRI_LANKA_CITIES.find((c) => c.name === city) ?? SRI_LANKA_CITIES[0];
-      load(selected.lat, selected.lng, selected.name);
-    };
-    run();
-  }, [city, load]);
+  const loadByCity = React.useCallback(async (cityName: string, countryName: string) => {
+    setStatus("loading");
+    try {
+      const data = await fetchPrayerTimesByCity(cityName, countryName);
+      setTimings(data);
+      setLocationLabel(`${cityName}, ${countryName}`);
+      setStatus("idle");
+    } catch {
+      setStatus("error");
+    }
+  }, []);
 
-  const useMyLocation = () => {
-    if (!navigator.geolocation) return;
+  const useMyLocation = React.useCallback(() => {
+    if (!navigator.geolocation) {
+      setStatus("error");
+      return;
+    }
     setStatus("loading");
     navigator.geolocation.getCurrentPosition(
-      (pos) => load(pos.coords.latitude, pos.coords.longitude, "Your location"),
+      (pos) => loadByCoords(pos.coords.latitude, pos.coords.longitude, "Your location"),
       () => setStatus("error"),
     );
+  }, [loadByCoords]);
+
+  // Sri Lanka mode (the default): load whenever the selected city changes.
+  React.useEffect(() => {
+    const run = () => {
+      if (mode !== "sri-lanka") return;
+      const selected = SRI_LANKA_CITIES.find((c) => c.name === city) ?? SRI_LANKA_CITIES[0];
+      loadByCoords(selected.lat, selected.lng, selected.name);
+    };
+    run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, city]);
+
+  const handleWorldwideSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!worldCity.trim()) return;
+    loadByCity(worldCity.trim(), country);
   };
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-2">
-        <Select value={city} onValueChange={setCity}>
-          <SelectTrigger className="min-w-56" aria-label="Select city for prayer times">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {SRI_LANKA_CITIES.map((c) => (
-              <SelectItem key={c.name} value={c.name}>
-                {c.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Button variant="outline" onClick={useMyLocation}>
-          <LocateFixed className="size-4" /> Use my location
-        </Button>
+      <div className="inline-flex flex-wrap gap-1 rounded-xl bg-brand-gray/60 p-1" role="tablist" aria-label="Prayer time location filter">
+        {MODES.map((m) => (
+          <button
+            key={m.key}
+            type="button"
+            role="tab"
+            aria-selected={mode === m.key}
+            onClick={() => setMode(m.key)}
+            className={cn(
+              "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
+              mode === m.key
+                ? "bg-white text-brand-navy shadow-xs"
+                : "text-muted-foreground hover:text-brand-navy",
+            )}
+          >
+            {m.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-4">
+        {mode === "sri-lanka" && (
+          <Select value={city} onValueChange={setCity}>
+            <SelectTrigger className="min-w-56" aria-label="Select Sri Lankan city for prayer times">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {SRI_LANKA_CITIES.map((c) => (
+                <SelectItem key={c.name} value={c.name}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+
+        {mode === "worldwide" && (
+          <form onSubmit={handleWorldwideSubmit} className="flex flex-wrap items-center gap-2">
+            <Select value={country} onValueChange={setCountry}>
+              <SelectTrigger className="min-w-48" aria-label="Select country">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {COUNTRIES.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Input
+              value={worldCity}
+              onChange={(e) => setWorldCity(e.target.value)}
+              placeholder="City, e.g. Makkah"
+              aria-label="City name"
+              className="max-w-48"
+            />
+            <Button type="submit" variant="outline">
+              <Search className="size-4" /> Get times
+            </Button>
+          </form>
+        )}
+
+        {mode === "location" && (
+          <Button variant="outline" onClick={useMyLocation}>
+            <LocateFixed className="size-4" /> Use my current location
+          </Button>
+        )}
       </div>
 
       <Card className="mt-6">
@@ -77,7 +173,8 @@ export function PrayerTimesWidget() {
         )}
         {status === "error" && (
           <div className="flex items-center justify-center gap-2 py-10 text-destructive">
-            <AlertCircle className="size-5" /> Couldn&rsquo;t load prayer times. Please try again.
+            <AlertCircle className="size-5" /> Couldn&rsquo;t load prayer times. Please check the
+            city/country and try again.
           </div>
         )}
         {status === "idle" && timings && (
@@ -95,6 +192,11 @@ export function PrayerTimesWidget() {
               ))}
             </div>
           </>
+        )}
+        {status === "idle" && !timings && (
+          <p className="py-10 text-center text-sm text-muted-foreground">
+            Choose a city and country, or use your current location, to see prayer times.
+          </p>
         )}
       </Card>
 

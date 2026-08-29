@@ -18,8 +18,8 @@ const faqs = [
     answer: "Prayer times are calculated from your location's latitude, longitude and date using standard astronomical formulas for the five daily prayers — the same method used by most prayer time apps and mosque calendars.",
   },
   {
-    question: "Can I check prayer times for Makkah or Madinah?",
-    answer: "Yes — search for Makkah or Madinah directly, which is especially useful if you're finalizing your Umrah itinerary and want to plan around prayer times at the Haramain.",
+    question: "Can I check prayer times for Makkah, Madinah, or other countries?",
+    answer: "Yes — Sri Lanka is the default, but the \"Other Countries\" filter lets you pick any country and city worldwide, including Makkah and Madinah, which is especially useful if you're finalizing your Umrah itinerary and want to plan around prayer times at the Haramain.",
   },
   {
     question: "Why might these times differ slightly from my local mosque?",
@@ -32,15 +32,16 @@ export default function PrayerTimesPage() {
     <ToolShell
       eyebrow="Never miss a prayer"
       title="Prayer Times"
-      description="Fajr, Dhuhr, Asr, Maghrib and Isha — for any Sri Lankan city, Makkah, Madinah, or your current location."
+      description="Fajr, Dhuhr, Asr, Maghrib and Isha — Sri Lanka by default, or any other country worldwide, plus your current location."
     >
       <PrayerTimesWidget />
 
       <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
         Whether you&rsquo;re at home in Colombo, Kandy, or Galle, or already
         in Makkah for Umrah, knowing accurate prayer times helps you plan
-        your day around the five daily prayers. Search any city worldwide,
-        or use your current location for times that update automatically.
+        your day around the five daily prayers. Switch to the &ldquo;Other
+        Countries&rdquo; filter for any country and city worldwide, or use
+        your current location for times that update automatically.
       </p>
 
       <ToolFaq items={faqs} />
