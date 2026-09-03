@@ -19,7 +19,7 @@ export default function SignInPage() {
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center gap-2 text-center">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/brand/icon.png" alt="UmrahPackages.lk" width={40} height={55} style={{ height: 40, width: "auto" }} />
+            <Image src="/brand/icon.png" alt="UmrahPackages.lk" width={43} height={55} style={{ height: 40, width: "auto" }} />
           </Link>
           <h1 className="font-display text-2xl font-bold text-brand-navy">Welcome back</h1>
           <p className="text-sm text-muted-foreground">Sign in to your agency or admin dashboard.</p>

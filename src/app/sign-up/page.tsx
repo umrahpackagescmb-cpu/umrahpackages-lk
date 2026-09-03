@@ -18,7 +18,7 @@ export default function SignUpPage() {
       <div className="w-full max-w-lg">
         <div className="mb-8 flex flex-col items-center gap-2 text-center">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/brand/icon.png" alt="UmrahPackages.lk" width={40} height={55} style={{ height: 40, width: "auto" }} />
+            <Image src="/brand/icon.png" alt="UmrahPackages.lk" width={43} height={55} style={{ height: 40, width: "auto" }} />
           </Link>
           <h1 className="font-display text-2xl font-bold text-brand-navy">Register Your Agency</h1>
           <p className="max-w-sm text-sm text-muted-foreground">

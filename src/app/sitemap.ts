@@ -43,6 +43,8 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   { path: "/islamic-tools/offline-pdf-guide", priority: 0.6, changeFrequency: "monthly" },
   { path: "/islamic-names", priority: 0.7, changeFrequency: "weekly" },
   { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/merchandise", priority: 0.4, changeFrequency: "monthly" },
+  { path: "/merchandise/wholesale", priority: 0.4, changeFrequency: "monthly" },
   { path: "/about", priority: 0.5, changeFrequency: "monthly" },
   { path: "/for-agencies", priority: 0.5, changeFrequency: "monthly" },
   { path: "/faq", priority: 0.6, changeFrequency: "monthly" },

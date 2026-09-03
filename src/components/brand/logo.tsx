@@ -36,10 +36,12 @@ export function Logo({
       <Image
         src="/brand/icon.png"
         alt=""
-        // Intrinsic crop dimensions (507×698) — scaled to iconSize via style
-        // below so the aspect ratio never distorts.
-        width={507}
-        height={698}
+        // Intrinsic crop dimensions (1099×1396, re-cropped 2026-08-29 to
+        // remove a sliver of the wordmark that had bled into the bottom of
+        // the old export) — scaled to iconSize via style below so the
+        // aspect ratio never distorts.
+        width={1099}
+        height={1396}
         priority
         className="shrink-0"
         style={{ height: iconSize, width: "auto" }}

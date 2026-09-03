@@ -57,7 +57,11 @@ export function travelAgencySchema(agency: Agency) {
     ...(agency.lat && agency.lng
       ? { geo: { "@type": "GeoCoordinates", latitude: agency.lat, longitude: agency.lng } }
       : {}),
-    ...(agency.rating ? { aggregateRating: { "@type": "AggregateRating", ratingValue: agency.rating, reviewCount: Math.max(1, agency.packageCount * 3) } } : {}),
+    // No aggregateRating here on purpose — agency.rating is mock/placeholder
+    // data with no real reviews behind it. Google disallows fabricated
+    // review counts in structured data (and it's against this project's own
+    // rule against inventing stats), so this stays out until there's a real
+    // review system to report on.
   };
 }
 
