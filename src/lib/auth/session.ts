@@ -66,7 +66,9 @@ export const DEMO_ADMIN_PROFILE: SessionProfile = {
 export const DEMO_AGENCY_PROFILE: SessionProfile = {
   id: "demo-agency-user",
   role: "travel_agency",
-  fullName: "Al-Safa Travels & Tours",
+  fullName: "NM Travels & Tours PVT LTD",
   agencyId: "a1",
-  email: "agency@alsafatravels.lk",
+  // Demo login identifier only — not a real email for this agency (see
+  // Agency.email's note in types/domain.ts).
+  email: "demo-agency@umrahpackages.lk",
 };

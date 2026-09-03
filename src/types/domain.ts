@@ -30,7 +30,11 @@ export interface Agency {
   address?: string;
   phone: string;
   whatsapp: string;
-  email: string;
+  /** Optional — some agencies only list phone/WhatsApp in their public
+   * ads, and this platform never invents a contact email an agency didn't
+   * provide. An agency can add a real one later via its own profile form
+   * (see agency-profile.ts, which still requires a valid email there). */
+  email?: string;
   website?: string;
   lat?: number;
   lng?: number;
@@ -56,13 +60,15 @@ export interface Package {
   departureCity: string;
   airline: string;
   makkahHotel: string;
-  makkahHotelStars: number;
+  /** Optional — omitted when the agency's ad/listing didn't state a star
+   * rating rather than guessing one. */
+  makkahHotelStars?: number;
   /** Optional, agency-supplied — powers the walking-route-to-Haram map on
    * the package page. Never geocoded/inferred automatically. */
   makkahHotelLat?: number;
   makkahHotelLng?: number;
   madinahHotel: string;
-  madinahHotelStars: number;
+  madinahHotelStars?: number;
   madinahHotelLat?: number;
   madinahHotelLng?: number;
   mealPlan?: string;

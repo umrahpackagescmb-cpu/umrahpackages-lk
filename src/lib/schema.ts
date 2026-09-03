@@ -47,7 +47,7 @@ export function travelAgencySchema(agency: Agency) {
     url: `${siteConfig.url}/agencies/${agency.slug}`,
     image: agency.logoUrl.startsWith("http") ? agency.logoUrl : `${siteConfig.url}${agency.logoUrl}`,
     telephone: agency.phone,
-    email: agency.email,
+    ...(agency.email ? { email: agency.email } : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: agency.address,

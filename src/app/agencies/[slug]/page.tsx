@@ -142,9 +142,11 @@ export default async function AgencyProfilePage({
                 <p className="flex items-center gap-2 text-foreground/80">
                   <Phone className="size-4 shrink-0 text-brand-gold-dark" /> {agency.phone}
                 </p>
-                <p className="flex items-center gap-2 text-foreground/80">
-                  <Mail className="size-4 shrink-0 text-brand-gold-dark" /> {agency.email}
-                </p>
+                {agency.email && (
+                  <p className="flex items-center gap-2 text-foreground/80">
+                    <Mail className="size-4 shrink-0 text-brand-gold-dark" /> {agency.email}
+                  </p>
+                )}
               </div>
               <div className="flex flex-col gap-2">
                 <Button variant="gold" asChild className="bg-[#25D366] text-white hover:bg-[#1ebc59]">

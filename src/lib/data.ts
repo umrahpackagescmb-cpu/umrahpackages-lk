@@ -48,7 +48,7 @@ function matchesFilters(pkg: Package, filters: PackageFilters): boolean {
   if (filters.maxPrice != null && pkg.priceLkr > filters.maxPrice) return false;
   if (filters.minDuration != null && pkg.durationDays < filters.minDuration) return false;
   if (filters.maxDuration != null && pkg.durationDays > filters.maxDuration) return false;
-  if (filters.minStars != null && pkg.makkahHotelStars < filters.minStars) return false;
+  if (filters.minStars != null && (pkg.makkahHotelStars ?? 0) < filters.minStars) return false;
   if (filters.airline && !pkg.airline.toLowerCase().includes(filters.airline.toLowerCase())) return false;
   if (filters.agencySlug && pkg.agency.slug !== filters.agencySlug) return false;
   if (filters.badge && !pkg.agency.badges.includes(filters.badge)) return false;

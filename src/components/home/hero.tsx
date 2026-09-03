@@ -2,8 +2,18 @@ import Link from "next/link";
 import { ArrowRight, ShieldCheck, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { getAgencies, getPackages } from "@/lib/data";
 
-export function Hero() {
+export async function Hero() {
+  // Real counts, computed from the actual listings — not marketing copy.
+  // There's no booking data to honestly back a "pilgrims guided" figure,
+  // so that stat was dropped rather than left in as an unverifiable number.
+  const [agencies, packages] = await Promise.all([getAgencies(), getPackages()]);
+  const stats: [string, string][] = [
+    [`${agencies.length}`, agencies.length === 1 ? "Agency" : "Agencies"],
+    [`${packages.length}`, packages.length === 1 ? "Umrah Package" : "Umrah Packages"],
+  ];
+
   return (
     <section className="theme-navy relative overflow-hidden bg-brand-navy text-white">
       {/* soft radial glow */}
@@ -27,9 +37,9 @@ export function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-base text-white/70 sm:text-lg leading-relaxed">
-            Browse and compare verified Umrah packages from Sri Lanka&rsquo;s
-            leading travel agencies — prices, hotels, airlines and reviews,
-            side by side. Then connect with the agency directly on WhatsApp.
+            Browse and compare Umrah packages from Sri Lanka&rsquo;s travel
+            agencies — prices, hotels, airlines and dates, side by side.
+            Then connect with the agency directly on WhatsApp.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -45,12 +55,8 @@ export function Hero() {
             </Button>
           </div>
 
-          <dl className="mt-14 grid grid-cols-3 gap-6 max-w-lg">
-            {[
-              ["50+", "Verified Agencies"],
-              ["300+", "Umrah Packages"],
-              ["12k+", "Pilgrims Guided"],
-            ].map(([value, label]) => (
+          <dl className="mt-14 grid grid-cols-2 gap-6 max-w-sm">
+            {stats.map(([value, label]) => (
               <div key={label}>
                 <dt className="font-display text-2xl font-bold text-brand-gold sm:text-3xl">
                   {value}

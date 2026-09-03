@@ -15,7 +15,7 @@ import { parsePackageFilters, first, all, type SearchParams } from "@/lib/parse-
 export const metadata: Metadata = {
   title: "Umrah Packages",
   description:
-    "Browse and compare Umrah packages from verified Sri Lankan travel agencies. Filter by price, duration, hotel rating, airline and more.",
+    "Browse and compare Umrah packages from Sri Lankan travel agencies. Filter by price, duration, hotel rating, airline and more.",
   alternates: { canonical: "/packages" },
 };
 
@@ -30,7 +30,11 @@ export default async function PackagesPage({
   const filters = parsePackageFilters(sp);
   const page = Math.max(1, Number(first(sp.page)) || 1);
 
-  const [allResults, priceRange] = await Promise.all([getPackages(filters), Promise.resolve(getPriceRange())]);
+  const [allResults, priceRange, totalPackages] = await Promise.all([
+    getPackages(filters),
+    Promise.resolve(getPriceRange()),
+    getPackages(),
+  ]);
   const departureMonths = getDepartureMonths();
 
   const totalPages = Math.max(1, Math.ceil(allResults.length / PAGE_SIZE));
@@ -50,9 +54,9 @@ export default async function PackagesPage({
   return (
     <>
       <PageHeader
-        eyebrow="300+ packages, one place"
+        eyebrow={`${totalPackages.length} package${totalPackages.length === 1 ? "" : "s"}, one place`}
         title="Umrah Packages"
-        description="Every package here is listed by a verified Sri Lankan travel agency. Compare freely — contacting an agency costs nothing and we never take a booking fee."
+        description="Every package here is listed by a Sri Lankan travel agency. Compare freely — contacting an agency costs nothing and we never take a booking fee."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Packages" }]}
       />
 

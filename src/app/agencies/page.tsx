@@ -29,9 +29,9 @@ export default async function AgenciesPage({
   return (
     <>
       <PageHeader
-        eyebrow="Vetted before they're listed"
+        eyebrow="Compare Sri Lankan agencies"
         title="Travel Agencies"
-        description="Every agency on UmrahPackages.lk is reviewed before being listed. Trust badges (Gold Verified, Featured, Premium Partner...) are assigned only by our team."
+        description="Browse Umrah operators listed on UmrahPackages.lk. Trust badges (Gold Verified, Featured, Premium Partner...) are assigned only by our team once an agency has been verified."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Agencies" }]}
       />
 

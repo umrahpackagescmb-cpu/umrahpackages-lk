@@ -8,7 +8,8 @@ import { formatLkr } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { Package } from "@/types/domain";
 
-function Stars({ count }: { count: number }) {
+function Stars({ count }: { count?: number }) {
+  if (count == null) return null;
   return (
     <span className="text-brand-gold-dark">
       {"★".repeat(count)}
