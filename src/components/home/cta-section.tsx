@@ -20,8 +20,8 @@ export function CtaSection() {
             Are you a travel agency? List your Umrah packages for free.
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-brand-navy/80">
-            Reach thousands of pilgrims searching for verified packages every
-            month. Get listed, get discovered, get contacted.
+            Reach pilgrims across Sri Lanka comparing packages before they
+            book. Get listed, get discovered, get contacted.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Button size="lg" asChild>

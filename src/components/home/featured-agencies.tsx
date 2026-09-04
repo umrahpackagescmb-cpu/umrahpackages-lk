@@ -6,9 +6,9 @@ export function FeaturedAgencies() {
   return (
     <section className="container-page py-20 sm:py-24">
       <SectionHeading
-        eyebrow="Trusted partners"
-        title="Verified Travel Agencies"
-        description="Every agency is reviewed before being listed. Badges are only ever assigned by our team."
+        eyebrow="Listed agencies"
+        title="Travel Agencies"
+        description="Browse Umrah operators listed on UmrahPackages.lk. Trust badges are only ever assigned by our team, never bought."
         href="/agencies"
         linkLabel="View all agencies"
       />

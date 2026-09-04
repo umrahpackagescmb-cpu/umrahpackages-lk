@@ -7,6 +7,7 @@ import { MapPin, Phone, Mail, MessageCircle, CalendarCheck, Package as PackageIc
 import { TrustBadgeList } from "@/components/badges/trust-badge";
 import { PackageCard } from "@/components/cards/package-card";
 import { OsmMap } from "@/components/agencies/osm-map";
+import { BeforeYouBook } from "@/components/packages/before-you-book";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/layout/empty-state";
@@ -128,6 +129,8 @@ export default async function AgencyProfilePage({
                 </div>
               )}
             </div>
+
+            <BeforeYouBook />
           </div>
 
           <div>

@@ -12,7 +12,7 @@ export function Footer() {
   return (
     <footer className="theme-navy bg-brand-navy text-white mt-24">
       <div className="container-page py-16">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-6">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-7">
           <div className="col-span-2">
             <Logo theme="dark" iconSize={40} showTagline />
             <p className="mt-4 max-w-xs text-sm text-white/60 leading-relaxed">

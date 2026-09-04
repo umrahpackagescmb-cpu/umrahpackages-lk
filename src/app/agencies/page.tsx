@@ -9,7 +9,7 @@ import { getAgencies, getAgencyCities, type AgencyFilters as Filters } from "@/l
 export const metadata: Metadata = {
   title: "Travel Agencies",
   description:
-    "Browse verified Umrah travel agencies across Sri Lanka. Every agency is vetted before listing — filter by city and trust badges.",
+    "Browse Umrah travel agencies across Sri Lanka. Compare cities and trust badges — badges are assigned only after our team verifies an agency.",
   alternates: { canonical: "/agencies" },
 };
 

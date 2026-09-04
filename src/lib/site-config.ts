@@ -8,8 +8,14 @@ export const siteConfig = {
   name: "UmrahPackages.lk",
   legalName: "UmrahPackages.lk",
   tagline: "Compare. Choose. Perform Umrah.",
+  // "verified"/"reviews" were dropped from this description on 2026-09-04 —
+  // it's used site-wide (root metadata, OG/Twitter cards, Organization
+  // schema, the footer tagline, llms.txt), and once real, mostly-unverified
+  // agency data replaced the old mock catalogue, both claims went from
+  // aspirational to actively false. Revisit once badge-based verification
+  // and a real review system exist.
   description:
-    "Sri Lanka's premium platform for comparing Umrah packages from trusted, verified travel agencies. Compare prices, hotels, airlines and reviews — then contact the agency directly.",
+    "Sri Lanka's platform for comparing Umrah packages from local travel agencies. Compare prices, hotels, airlines and dates — then contact the agency directly.",
   url: "https://umrahpackages.lk",
   ogImage: "/brand/og-image.png",
   locale: "en_LK",

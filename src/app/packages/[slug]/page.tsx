@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Check, X as XIcon, FileText } from "lucide-react";
 
 import { PackageGallery } from "@/components/packages/package-gallery";
+import { BeforeYouBook } from "@/components/packages/before-you-book";
 import { SpecTable } from "@/components/packages/spec-table";
 import { ContactCard } from "@/components/packages/contact-card";
 import { HotelRouteMap } from "@/components/islamic/hotel-route-map-loader";
@@ -220,6 +221,8 @@ export default async function PackageDetailPage({
               ))}
             </div>
           )}
+
+          <BeforeYouBook />
         </div>
 
         <div className="hidden lg:block">

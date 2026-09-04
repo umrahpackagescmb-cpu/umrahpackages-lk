@@ -29,6 +29,8 @@ import {
   DoorOpen,
   View,
   FileDown,
+  Baby,
+  Accessibility,
   type LucideIcon,
 } from "lucide-react";
 
@@ -75,5 +77,7 @@ export const islamicToolsList: ToolListing[] = [
   { icon: DoorOpen, title: "Haram Facilities Guide", description: "Gates, Zamzam stations, accessibility and more — general orientation, not a pinpoint map.", href: "/islamic-tools/masjid-al-haram-facilities-guide" },
   { icon: View, title: "360° Holy Places Explorer", description: "Real external 360° and panoramic resources for the Kaaba and the two holy mosques.", href: "/islamic-tools/360-explorer" },
   { icon: FileDown, title: "Offline Umrah Guide (PDF)", description: "A free printable PDF with the full Umrah guide, packing list and pre-departure checklist.", href: "/islamic-tools/offline-pdf-guide" },
+  { icon: Baby, title: "Umrah with Children", description: "Practical guidance for parents bringing children on Umrah.", href: "/islamic-tools/children-umrah-guide" },
+  { icon: Accessibility, title: "Umrah for Elderly Pilgrims", description: "Access, pacing and what to ask your agency for elderly travellers.", href: "/islamic-tools/elderly-umrah-guide" },
   { icon: Tag, title: "Islamic Names", description: "1,000+ Islamic names for boys & girls, with meanings.", href: "/islamic-names" },
 ];

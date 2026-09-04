@@ -8,16 +8,16 @@ import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: `Learn about ${siteConfig.name} — Sri Lanka's platform for comparing verified Umrah packages from trusted travel agencies.`,
+  description: `Learn about ${siteConfig.name} — Sri Lanka's platform for comparing Umrah packages from local travel agencies.`,
   alternates: { canonical: "/about" },
 };
 
 const values = [
   {
     icon: ShieldCheck,
-    title: "Verified, not just listed",
+    title: "Trust badges you can rely on",
     description:
-      "Every agency is reviewed before it appears on the platform. Trust badges are assigned by our team, never bought.",
+      "Gold Verified, Featured, and Premium Partner badges are assigned by our team only after we've reviewed an agency — never sold, never automatic.",
   },
   {
     icon: Scale,
@@ -45,7 +45,7 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="Our story"
         title="About UmrahPackages.lk"
-        description="Sri Lanka's platform for comparing verified Umrah packages — built to make choosing an agency simple, transparent, and pressure-free."
+        description="Sri Lanka's platform for comparing Umrah packages — built to make choosing an agency simple, transparent, and pressure-free."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
       />
 

@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "For Travel Agencies",
   description:
-    "List your Umrah packages on UmrahPackages.lk for free. Reach pilgrims across Sri Lanka searching for verified packages.",
+    "List your Umrah packages on UmrahPackages.lk for free. Reach pilgrims across Sri Lanka comparing packages before they book.",
   alternates: { canonical: "/for-agencies" },
 };
 
