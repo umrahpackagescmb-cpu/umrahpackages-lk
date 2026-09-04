@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getPackageBySlug, getPackages, getSimilarPackages } from "@/lib/data";
+import { getPackageBySlug, getPackages, getSimilarPackages, isPackageExpired } from "@/lib/data";
 import { packageSchema, breadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/site-config";
 import { formatDate, nextDeparture } from "@/lib/format";
@@ -61,6 +61,7 @@ export default async function PackageDetailPage({
   const similar = await getSimilarPackages(pkg, 4);
   const departs = nextDeparture(pkg.departureDates);
   const allDepartureDates = [...(pkg.departureDates ?? [])].sort();
+  const expired = isPackageExpired(pkg);
 
   return (
     <div className="container-page py-10">
@@ -80,6 +81,15 @@ export default async function PackageDetailPage({
         <span className="mx-1.5">/</span>
         <span className="text-brand-navy">{pkg.title}</span>
       </nav>
+
+      {expired && (
+        <div className="mb-6 rounded-xl border border-brand-gold/40 bg-brand-gold/10 px-4 py-3 text-sm text-brand-navy">
+          The departure date{allDepartureDates.length > 1 ? "s" : ""} shown below{" "}
+          {allDepartureDates.length > 1 ? "have" : "has"} already passed, so this package no longer
+          appears in search or listings. Contact {pkg.agency.name} directly to ask about the next
+          available departure — they may be able to offer similar dates and pricing.
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
         <div className="lg:col-span-2">

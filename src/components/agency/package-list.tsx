@@ -22,6 +22,7 @@ import {
 import { EmptyState } from "@/components/layout/empty-state";
 import { formatLkr } from "@/lib/format";
 import { setPackagePublished, deletePackage } from "@/lib/actions/packages";
+import { isPackageExpired } from "@/lib/data";
 import type { Package } from "@/types/domain";
 
 function PublishedToggle({
@@ -164,9 +165,16 @@ export function PackageList({ packages: initialPackages }: { packages: Package[]
               <TableCell className="text-sm font-medium text-brand-navy">{formatLkr(pkg.priceLkr)}</TableCell>
               <TableCell className="text-sm text-muted-foreground">{pkg.durationDays} days</TableCell>
               <TableCell>
-                <Badge variant={pkg.isPublished ? "success" : "outline"}>
-                  {pkg.isPublished ? "Published" : "Draft"}
-                </Badge>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <Badge variant={pkg.isPublished ? "success" : "outline"}>
+                    {pkg.isPublished ? "Published" : "Draft"}
+                  </Badge>
+                  {isPackageExpired(pkg) && (
+                    <Badge variant="outline" className="border-destructive/40 text-destructive">
+                      Expired — hidden from site
+                    </Badge>
+                  )}
+                </div>
               </TableCell>
               <TableCell>
                 <PublishedToggle

@@ -9,8 +9,7 @@ import { islamicToolsList } from "@/lib/islamic/tools-list";
 
 export const metadata: Metadata = {
   title: "Free Islamic Tools — Prayer Times, Qibla, Zakat, Hijri Calendar & More",
-  description:
-    "30 free Islamic tools and guides for daily worship and your Umrah journey: prayer times, Qibla finder, Hijri calendar & converter, Zakat calculator, a step-by-step Umrah guide with audio and Tamil/Sinhala translations, an offline PDF guide, budget & packing tools, currency converter, live weather, practical Saudi travel guides, and 1,000+ Islamic names.",
+  description: `${islamicToolsList.length} free Islamic tools and guides for daily worship and your Umrah journey — prayer times, Qibla finder, Zakat calculator, step-by-step Umrah & Hajj guides, a prayer tracker, an Islamic quiz and more.`,
   alternates: { canonical: "/islamic-tools" },
   keywords: [
     "islamic tools",

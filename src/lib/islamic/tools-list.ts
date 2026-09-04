@@ -31,6 +31,11 @@ import {
   FileDown,
   Baby,
   Accessibility,
+  Venus,
+  Droplets,
+  HandHeart,
+  CheckSquare,
+  HelpCircle,
   type LucideIcon,
 } from "lucide-react";
 
@@ -79,5 +84,11 @@ export const islamicToolsList: ToolListing[] = [
   { icon: FileDown, title: "Offline Umrah Guide (PDF)", description: "A free printable PDF with the full Umrah guide, packing list and pre-departure checklist.", href: "/islamic-tools/offline-pdf-guide" },
   { icon: Baby, title: "Umrah with Children", description: "Practical guidance for parents bringing children on Umrah.", href: "/islamic-tools/children-umrah-guide" },
   { icon: Accessibility, title: "Umrah for Elderly Pilgrims", description: "Access, pacing and what to ask your agency for elderly travellers.", href: "/islamic-tools/elderly-umrah-guide" },
+  { icon: Venus, title: "Umrah for Women", description: "Practical guidance for women travellers — Ihram, agency questions, packing and the period/mahram questions.", href: "/islamic-tools/women-umrah-guide" },
+  { icon: Landmark, title: "Hajj Guide", description: "The full Hajj sequence, from Ihram through the Days of Tashriq, with dates and Hajj types.", href: "/islamic-tools/hajj-guide" },
+  { icon: Droplets, title: "Wudu Guide", description: "The widely-agreed step-by-step sequence for Wudu, what breaks it, and Tayammum.", href: "/islamic-tools/wudu-guide" },
+  { icon: HandHeart, title: "Salah Guide", description: "A beginner's guide to the five daily prayers and the general rak'ah sequence.", href: "/islamic-tools/salah-guide" },
+  { icon: CheckSquare, title: "Prayer Tracker", description: "Tick off today's five prayers and see how many you've completed.", href: "/islamic-tools/prayer-tracker" },
+  { icon: HelpCircle, title: "Islamic Quiz", description: "Test your knowledge of Islamic basics and Umrah & Hajj facts, one question at a time.", href: "/islamic-tools/islamic-quiz" },
   { icon: Tag, title: "Islamic Names", description: "1,000+ Islamic names for boys & girls, with meanings.", href: "/islamic-names" },
 ];

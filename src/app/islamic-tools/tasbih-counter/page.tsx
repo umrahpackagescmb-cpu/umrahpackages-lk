@@ -4,6 +4,8 @@ import { ToolShell } from "@/components/islamic/tool-shell";
 import { TasbihWidget } from "@/components/islamic/tasbih-widget";
 import { ToolFaq } from "@/components/islamic/tool-faq";
 import { RelatedTools } from "@/components/islamic/related-tools";
+import { JsonLd } from "@/components/seo/json-ld";
+import { softwareApplicationSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Tasbih Counter — Free Digital Dhikr Counter",
@@ -34,6 +36,14 @@ export default function TasbihCounterPage() {
       title="Tasbih Counter"
       description="Tap to count your dhikr. Your progress is saved automatically on this device."
     >
+      <JsonLd
+        data={softwareApplicationSchema({
+          name: "Tasbih Counter — Free Digital Dhikr Counter",
+          description: "A simple digital tasbih (dhikr) counter with common targets of 33, 99, and 100 — free, works on your phone, no account needed.",
+          url: "/islamic-tools/tasbih-counter",
+        })}
+      />
+
       <TasbihWidget />
 
       <ToolFaq items={faqs} />

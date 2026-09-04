@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ToolShell } from "@/components/islamic/tool-shell";
 import { CurrencyConverterWidget } from "@/components/islamic/currency-converter-widget";
 import { ToolFaq } from "@/components/islamic/tool-faq";
 import { RelatedTools } from "@/components/islamic/related-tools";
+import { JsonLd } from "@/components/seo/json-ld";
+import { softwareApplicationSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Currency Converter — LKR to SAR & USD for Umrah Travel",
@@ -45,6 +48,15 @@ export default function CurrencyConverterPage() {
       title="Currency Converter"
       description="Convert between Sri Lankan Rupee, Saudi Riyal and US Dollar with live daily exchange rates."
     >
+      <JsonLd
+        data={softwareApplicationSchema({
+          name: "Currency Converter — LKR to SAR & USD for Umrah Travel",
+          description:
+            "Convert Sri Lankan Rupees to Saudi Riyal and US Dollars with live, daily-updated exchange rates — plan your Umrah spending money and see a 7-day rate trend.",
+          url: "/islamic-tools/currency-converter",
+        })}
+      />
+
       <p className="text-sm text-muted-foreground">
         Working out how much Saudi Riyal spending money to carry for your Umrah trip starts with
         knowing today&rsquo;s exchange rate. This tool converts between LKR, SAR and USD using a
@@ -54,6 +66,58 @@ export default function CurrencyConverterPage() {
 
       <div className="mt-8">
         <CurrencyConverterWidget />
+      </div>
+
+      <div className="mt-10 flex flex-col gap-6">
+        <div>
+          <h2 className="font-display text-base font-semibold text-brand-navy">
+            Why live rates matter for Sri Lankan pilgrims specifically
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            The Saudi Riyal is pegged to the US Dollar, but the Sri Lankan Rupee floats and can move
+            noticeably against both over just a few weeks. That matters because most Sri Lankan
+            pilgrims pay for their package in LKR, then separately need to work out how much SAR
+            spending money to actually carry for food, shopping, local transport and Ziyarah extras
+            once they land in Makkah or Madinah. A rate that looked reasonable when you first
+            budgeted months out can look quite different close to departure, so it&rsquo;s worth
+            rechecking with a live converter like this one shortly before you fly, rather than
+            relying on a figure from when you first planned the trip.
+          </p>
+        </div>
+        <div>
+          <h2 className="font-display text-base font-semibold text-brand-navy">
+            Where to actually exchange your money
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Compare rates at a couple of licensed money changers in Colombo before you leave rather
+            than accepting the first one you find, and keep in mind that airport counters — both in
+            Sri Lanka and Saudi Arabia — tend to offer weaker rates than licensed changers in town,
+            purely for the convenience of being on-site. Many pilgrims carry a small amount of SAR
+            (or USD, which is widely exchangeable) from home to cover the first day or two, then
+            exchange the bulk of their spending money at licensed money changers in Makkah or
+            Madinah once they arrive, where rates are often competitive — it&rsquo;s worth avoiding
+            informal exchangers with no visible licensing wherever you are.
+          </p>
+        </div>
+        <div>
+          <h2 className="font-display text-base font-semibold text-brand-navy">
+            Treat the rate shown here as a planning estimate
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            The figure this tool shows is a genuine, daily-updated market rate — not a made-up
+            number — but it&rsquo;s still a reference for budgeting rather than the exact rate a
+            bank or money changer will actually offer you, since they add their own margin and fees
+            on top. For a fuller walkthrough of cash versus cards in Makkah and Madinah, and how to
+            structure a daily spending allowance, see our blog post on{" "}
+            <Link
+              href="/blog/managing-money-on-umrah-currency-and-budgeting"
+              className="font-medium text-brand-navy underline underline-offset-2"
+            >
+              managing money on Umrah
+            </Link>
+            .
+          </p>
+        </div>
       </div>
 
       <ToolFaq items={faqs} />

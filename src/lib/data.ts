@@ -86,11 +86,14 @@ function sortPackages(pkgs: Package[], sort: PackageFilters["sort"]): Package[] 
   }
 }
 
-/** Public listing — only published packages from active agencies. */
+/** Public listing — only published, non-expired packages from active
+ * agencies. Expired packages (every departure date in the past) are
+ * filtered out automatically so nobody has to remember to delete stale
+ * listings by hand. */
 export async function getPackages(filters: PackageFilters = {}): Promise<Package[]> {
   const activeAgencyIds = new Set(mockAgencies.filter((a) => a.isActive).map((a) => a.id));
   const filtered = mockPackages.filter(
-    (p) => p.isPublished && activeAgencyIds.has(p.agencyId) && matchesFilters(p, filters),
+    (p) => p.isPublished && activeAgencyIds.has(p.agencyId) && !isPackageExpired(p) && matchesFilters(p, filters),
   );
   return sortPackages(filtered, filters.sort);
 }
@@ -106,11 +109,26 @@ export async function getAllPackagesForAdmin(agencyId?: string): Promise<Package
   return [...list].sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt));
 }
 
-/** Shared base for every public "automation" list below — published
- * packages from active agencies only, same visibility rule as `getPackages`. */
+/** A package is "expired" once every one of its departure dates is in the
+ * past — an agency listing 3 dates stays visible until the last one passes.
+ * A package with no departureDates set is never treated as expired (there's
+ * nothing dated to judge it against). This is the automatic replacement for
+ * manually deleting stale listings: expired packages simply stop appearing
+ * anywhere public, without anyone having to remember to remove them. Agency
+ * and admin dashboards still see expired packages (flagged via
+ * `isPackageExpired`) so the agency notices and can add fresh dates. */
+export function isPackageExpired(pkg: Pick<Package, "departureDates">, now: Date = new Date()): boolean {
+  if (!pkg.departureDates?.length) return false;
+  const todayIso = now.toISOString().slice(0, 10);
+  return pkg.departureDates.every((d) => d < todayIso);
+}
+
+/** Shared base for every public "automation" list below — published,
+ * non-expired packages from active agencies only, same visibility rule as
+ * `getPackages`. */
 function publiclyVisiblePackages(): Package[] {
   const activeAgencyIds = new Set(mockAgencies.filter((a) => a.isActive).map((a) => a.id));
-  return mockPackages.filter((p) => p.isPublished && activeAgencyIds.has(p.agencyId));
+  return mockPackages.filter((p) => p.isPublished && activeAgencyIds.has(p.agencyId) && !isPackageExpired(p));
 }
 
 export async function getFeaturedPackages(limit = 4): Promise<Package[]> {

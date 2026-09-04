@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/card";
 import { gregorianToHijri, HIJRI_MONTHS } from "@/lib/islamic/hijri";
 import { ToolFaq } from "@/components/islamic/tool-faq";
 import { RelatedTools } from "@/components/islamic/related-tools";
+import { JsonLd } from "@/components/seo/json-ld";
+import { softwareApplicationSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Hijri Calendar — Today's Islamic Date",
@@ -49,6 +51,14 @@ export default function HijriCalendarPage() {
       title="Hijri Calendar"
       description="Gregorian dates mapped to the Islamic calendar for the current month."
     >
+      <JsonLd
+        data={softwareApplicationSchema({
+          name: "Hijri Calendar — Today's Islamic Date",
+          description: "See today's date and this month's full calendar in the Islamic (Hijri) calendar, mapped side by side with the Gregorian calendar — free, updates automatically.",
+          url: "/islamic-tools/hijri-calendar",
+        })}
+      />
+
       <Card className="items-center gap-1 py-6 text-center">
         <p className="text-sm text-muted-foreground">Today is</p>
         <p className="font-display text-2xl font-bold text-brand-navy">

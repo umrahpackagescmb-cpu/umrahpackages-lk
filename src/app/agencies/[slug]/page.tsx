@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/layout/empty-state";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getAgencies, getAgencyBySlug, getPackagesByAgency } from "@/lib/data";
+import { getAgencies, getAgencyBySlug, getPackagesByAgency, isPackageExpired } from "@/lib/data";
 import { travelAgencySchema, breadcrumbSchema } from "@/lib/schema";
 
 export async function generateStaticParams() {
@@ -48,7 +48,10 @@ export default async function AgencyProfilePage({
   const agency = await getAgencyBySlug(slug);
   if (!agency) notFound();
 
-  const packages = await getPackagesByAgency(agency.id);
+  // Public agency profile — same "expired packages disappear automatically"
+  // rule as the rest of the site, so nobody has to remember to unlist a
+  // stale departure by hand.
+  const packages = (await getPackagesByAgency(agency.id)).filter((p) => !isPackageExpired(p));
 
   return (
     <div>

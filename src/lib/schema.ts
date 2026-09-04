@@ -132,6 +132,35 @@ export function howToSchema(params: {
   };
 }
 
+/**
+ * For the free, in-browser calculator/utility tools under /islamic-tools/*
+ * (Zakat Calculator, Prayer Times, Qibla Finder, Tasbih Counter, etc.) — not
+ * for static guide pages, which use howToSchema/faqSchema instead. No
+ * aggregateRating is included, same reasoning as travelAgencySchema: there's
+ * no real review system behind these tools, so nothing gets fabricated.
+ */
+export function softwareApplicationSchema(params: {
+  name: string;
+  description: string;
+  url: string;
+  applicationCategory?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: params.name,
+    description: params.description,
+    url: params.url.startsWith("http") ? params.url : `${siteConfig.url}${params.url}`,
+    applicationCategory: params.applicationCategory ?? "LifestyleApplication",
+    operatingSystem: "Any (web browser)",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "LKR",
+    },
+  };
+}
+
 export function breadcrumbSchema(items: { name: string; url?: string }[]) {
   return {
     "@context": "https://schema.org",

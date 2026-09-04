@@ -7,6 +7,8 @@ import { daysUntil, gregorianToHijri, hijriToGregorian, nextHijriOccurrence } fr
 import { ToolFaq } from "@/components/islamic/tool-faq";
 import { RelatedTools } from "@/components/islamic/related-tools";
 import { siteConfig } from "@/lib/site-config";
+import { JsonLd } from "@/components/seo/json-ld";
+import { softwareApplicationSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Hajj Countdown — Days Until the Day of Arafah",
@@ -46,6 +48,14 @@ export default function HajjCountdownPage() {
       title="Hajj Countdown"
       description="Days remaining until the Day of Arafah, the pinnacle of Hajj."
     >
+      <JsonLd
+        data={softwareApplicationSchema({
+          name: "Hajj Countdown — Days Until the Day of Arafah",
+          description: "See exactly how many days remain until Hajj and the Day of Arafah (9th of Dhu al-Hijjah), with the expected Gregorian date, updated automatically each day.",
+          url: "/islamic-tools/hajj-countdown",
+        })}
+      />
+
       <Card className="items-center gap-4 py-12 text-center">
         <div className="flex size-14 items-center justify-center rounded-full bg-brand-navy text-brand-gold">
           <Landmark className="size-6" />

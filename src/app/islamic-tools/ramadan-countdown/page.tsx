@@ -6,6 +6,8 @@ import { Card } from "@/components/ui/card";
 import { HIJRI_MONTHS, daysUntil, formatHijri, gregorianToHijri, nextHijriOccurrence } from "@/lib/islamic/hijri";
 import { ToolFaq } from "@/components/islamic/tool-faq";
 import { RelatedTools } from "@/components/islamic/related-tools";
+import { JsonLd } from "@/components/seo/json-ld";
+import { softwareApplicationSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Ramadan Countdown — Days Until Ramadan",
@@ -44,6 +46,14 @@ export default function RamadanCountdownPage() {
       title="Ramadan Countdown"
       description={`Days remaining until the start of Ramadan ${ramadanHijriYear} AH.`}
     >
+      <JsonLd
+        data={softwareApplicationSchema({
+          name: "Ramadan Countdown — Days Until Ramadan",
+          description: "See exactly how many days remain until the start of Ramadan, with the expected Gregorian date, updated automatically each day.",
+          url: "/islamic-tools/ramadan-countdown",
+        })}
+      />
+
       <Card className="items-center gap-4 py-12 text-center">
         <div className="flex size-14 items-center justify-center rounded-full bg-brand-navy text-brand-gold">
           <Moon className="size-6" />
