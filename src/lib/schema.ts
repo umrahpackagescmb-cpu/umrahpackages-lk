@@ -161,6 +161,27 @@ export function softwareApplicationSchema(params: {
   };
 }
 
+/**
+ * For a paginated listing page (e.g. /packages) — tells search engines the
+ * ranked order of items on THIS page. `position` should reflect the item's
+ * absolute rank across the whole result set (i.e. offset by the page
+ * number), not just its position within the current page's slice.
+ */
+export function itemListSchema(
+  items: { name: string; url: string; position: number }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item) => ({
+      "@type": "ListItem",
+      position: item.position,
+      name: item.name,
+      url: item.url.startsWith("http") ? item.url : `${siteConfig.url}${item.url}`,
+    })),
+  };
+}
+
 export function breadcrumbSchema(items: { name: string; url?: string }[]) {
   return {
     "@context": "https://schema.org",

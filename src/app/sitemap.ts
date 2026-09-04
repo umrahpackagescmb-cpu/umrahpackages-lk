@@ -69,6 +69,11 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   { path: "/terms", priority: 0.2, changeFrequency: "yearly" },
 ];
 
+// Sitemap <image:loc> entries must be absolute URLs — Google Search Console
+// flags relative paths (e.g. "/placeholders/cover-6.jpg") as invalid, even
+// though the same relative path works fine as a plain <img src> elsewhere.
+const absUrl = (path: string) => (path.startsWith("http") ? path : `${siteConfig.url}${path}`);
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [packages, agencies, posts, maulavis] = await Promise.all([
     getPackages(),
@@ -91,7 +96,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: pkg.updatedAt ? new Date(pkg.updatedAt) : now,
     changeFrequency: "weekly",
     priority: 0.8,
-    images: pkg.images?.length ? pkg.images : [pkg.coverImageUrl],
+    images: (pkg.images?.length ? pkg.images : [pkg.coverImageUrl]).map(absUrl),
   }));
 
   const agencyEntries: MetadataRoute.Sitemap = agencies.map((agency) => ({
@@ -99,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: now,
     changeFrequency: "weekly",
     priority: 0.7,
-    images: [agency.logoUrl],
+    images: [absUrl(agency.logoUrl)],
   }));
 
   const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
@@ -107,7 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(post.publishedAt),
     changeFrequency: "monthly",
     priority: 0.6,
-    images: [post.coverImageUrl],
+    images: [absUrl(post.coverImageUrl)],
   }));
 
   const maulaviEntries: MetadataRoute.Sitemap = maulavis.map((m) => ({

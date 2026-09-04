@@ -9,6 +9,8 @@ import {
   SortDropdown,
 } from "@/components/packages/package-filters";
 import { Pagination } from "@/components/packages/pagination";
+import { JsonLd } from "@/components/seo/json-ld";
+import { itemListSchema } from "@/lib/schema";
 import { getPackages, getPriceRange, getDepartureMonths } from "@/lib/data";
 import { parsePackageFilters, first, all, type SearchParams } from "@/lib/parse-package-filters";
 
@@ -53,6 +55,17 @@ export default async function PackagesPage({
 
   return (
     <>
+      {pageResults.length > 0 && (
+        <JsonLd
+          data={itemListSchema(
+            pageResults.map((pkg, i) => ({
+              name: pkg.title,
+              url: `/packages/${pkg.slug}`,
+              position: (page - 1) * PAGE_SIZE + i + 1,
+            })),
+          )}
+        />
+      )}
       <PageHeader
         eyebrow={`${totalPackages.length} package${totalPackages.length === 1 ? "" : "s"}, one place`}
         title="Umrah Packages"
